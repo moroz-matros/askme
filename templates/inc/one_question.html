@@ -3,10 +3,10 @@
       <ol class="list-unstyled mb-0" style="text-align: center">
          <li><img src="http://placehold.it/64x64" class="p-2"></li>
         <li>
-          <div class="stepper col-md">
-           <input type="number" value="5" class="quantity stepper-input" style="width: 2.2rem">
-            <span class="stepper-arrow up"></span>
-            <span class="stepper-arrow down"></span>
+          <div class="def-number-input number-input safari_only">
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus">-</button>
+            <input class="quantity" min="0" name="quantity" value="1" type="number" style="pointer-events: none; width: 50px; text-align: right;">
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">+</button>
           </div>
         </li>
       </ol>

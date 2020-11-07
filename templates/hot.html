@@ -3,9 +3,9 @@
 
 {% block content %}
   <h3 class="pb-4 mb-4 border-bottom">
-    New questions
-    <a href="{% url 'hot'%}" class="text-u" style="font-size: 17px; padding-left: 1rem;"> 
-      Hot questions
+    Hot questions
+    <a href="{% url 'home'%}" class="text-u" style="font-size: 17px; padding-left: 1rem;"> 
+      New questions
     </a> 
   </h3>
     {% for question in questions %}
