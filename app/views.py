@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from blog.models import Article
+from blog.models import Question
 
 # Create your views here.
 
@@ -35,7 +35,8 @@ def question(request):
     return render(request, 'question.html', {})
 
 def hot(request):
-    paginator = Paginator(question_list, 5) # Show 5 
+    questions = Question.objects.all()
+    paginator = Paginator(questions, 2) # Show 2
     page = request.GET.get('page', 1)
     questions = paginator.get_page(page)
     return render(request, 'hot.html', {'questions': questions})
@@ -44,7 +45,7 @@ def tag(request, tag):
     return render(request, 'tag.html', {'tag': tag})
 
 def listing(request):
-    questions = Article.objects.all()
+    questions = Question.objects.all()
     paginator = Paginator(questions, 2) # Show 2
     page = request.GET.get('page', 1)
     questions = paginator.get_page(page)
@@ -54,8 +55,9 @@ def listing(request):
 def settings(request):
     return render(request, 'settings.html', {})
 
-def question(request):
+def question(request, question_id):
+    question = Question.objects.find_id(question_id)
     paginator = Paginator(answer_list, 2) # Show 5 
     page = request.GET.get('page', 1)
     answers = paginator.get_page(page)
-    return render(request, 'question.html', {'answers': answers})
+    return render(request, 'question.html', {'answers': answers, 'question': question})

@@ -12,16 +12,17 @@ class Author(models.Model):
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
 
+class QuestionManager(models.Manager):
+    def find_id(self, question_id):
+        return self.get(id=question_id)
 
-class Article(models.Model):
+class Question(models.Model):
     title = models.CharField(max_length=1024, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст', default="")
-    date_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title
+    tags = models.CharField(max_length=1024, verbose_name='Теги')
+    objects = QuestionManager()
 
     class Meta:
-        verbose_name = 'Статья'
-        verbose_name_plural = 'Статьи'
+        verbose_name = 'Вопрос'
+        verbose_name_plural = 'Вопросы'

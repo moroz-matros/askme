@@ -1,6 +1,6 @@
 {% load static %}
 <div class="media text-muted pt-3 border p-2 mb-2">
-      <ol class="list-unstyled mb-0" style="text-align: center">
+      <ol class="list-unstyled mb-0 mr-2" style="text-align: center">
          <li><img src="http://placehold.it/64x64" class="p-2"></li>
         <li>
           <div class="def-number-input number-input safari_only">
@@ -11,11 +11,14 @@
         </li>
       </ol>
       <div class="media-body pb-3 mb-0 small lh-125">
-        <a href="#" class="text-u">How to build a moon park?</a></br>
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna a...</span>
+        <a href="{% url 'question' question.id %}"" class="text-u" style="font-size: 20px">{{ question.title }}</a></br>
+        <span >{{ question.text }}
+        
+        
+        </span>
         <div class="row mb-3">
           <div class="col-md-3">
-            <a href="#" class="text-u">answer (3)</a></div>
+            <a href="{% url 'question' question.id %}" class="text-u">answer (3)</a></div>
            <div class="col-md-9">
            <span>Tags</span> 
            <a href="#" class="text-u">black-jack</a>
