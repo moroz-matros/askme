@@ -5,8 +5,9 @@
 
   {% include 'inc/question.html' %}
     
-  {% include 'inc/one_answer.html' %}
-  {% include 'inc/one_answer.html' %}
+  {% for answer in answers %}
+      {% include 'inc/one_answer.html' %}
+  {% endfor %}  
   
   <div class="pagination">
         <ul class="pagination">

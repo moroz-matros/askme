@@ -81,9 +81,16 @@ STATICFILES_DIRS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'askme',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',   
+        'PORT': '8000',
+        'OPTIONS': {
+   'init_command': 'SET default_storage_engine=INNODB',
     }
+    }    
 }
 
 
