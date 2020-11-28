@@ -1,6 +1,10 @@
 from django.db import models
 from django.utils import timezone
 from datetime import date
+from django.contrib.auth.models import User
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class ProfileManager(models.Manager):
     def find_id(self, profile_id):
@@ -8,6 +12,7 @@ class ProfileManager(models.Manager):
 
 
 class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
     email = models.EmailField(max_length=256, verbose_name = "Email", default="")
     nickname = models.CharField(max_length=256, verbose_name='Никнейм')
     avatar = models.ImageField(upload_to='uploads/', verbose_name="Аватар", blank=True, 
@@ -21,8 +26,14 @@ class Profile(models.Model):
 
 
     class Meta:
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профили'
+        verbose_name = 'Profile'
+        verbose_name_plural = 'Profiles'
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
 
 class QuestionManager(models.Manager):
     def find_id(self, question_id):
@@ -33,17 +44,17 @@ class QuestionManager(models.Manager):
 
 
 class Question(models.Model):
-    title = models.CharField(max_length=1024, verbose_name='Заголовок')
-    text = models.TextField(verbose_name='Текст', default="")
+    title = models.CharField(max_length=1024, verbose_name='Title')
+    text = models.TextField(verbose_name='Text', default="")
     author = models.ForeignKey('Profile', on_delete=models.CASCADE)
-    creation_date = models.DateField(verbose_name="Дата создания",default=date.today)
-    tags = models.ManyToManyField("Tag", verbose_name="Теги")
-    rate = models.IntegerField(default=0, verbose_name="Рейтинг")
+    creation_date = models.DateField(verbose_name="Creation date",default=date.today)
+    tags = models.ManyToManyField("Tag", verbose_name="Tags")
+    rate = models.IntegerField(default=0, verbose_name="Rate")
     objects = QuestionManager()
 
     class Meta:
-        verbose_name = 'Вопрос'
-        verbose_name_plural = 'Вопросы'
+        verbose_name = 'Question'
+        verbose_name_plural = 'Questions'
 
     def __str__(self):
         return self.title

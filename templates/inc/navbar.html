@@ -5,15 +5,23 @@
       <form class="form-inline my-2 my-md-0 search-field">
             <input class="form-control" type="text" placeholder="Search">
       </form>
-      <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/ask'">Ask!</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href={% url 'ask' %}">Ask!</button>
     </ul>
+    {% if user.is_authenticated %}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
+        </li>
+        
+    {% else %}
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link active" href="{% url 'login' %}">Login</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'signup' %}">Register</a>
-      </li>
-    </ul>
+        <li class="nav-item active">
+          <a class="nav-link active" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'signup' %}">Register</a>
+        </li>
+      </ul>
+    {% endif %}
   </div>
 </nav>

@@ -9,22 +9,8 @@
       {% include 'inc/one_answer.html' %}
   {% endfor %}  
   
-  <div class="pagination">
-        <ul class="pagination">
-        {% if answers.has_previous %}
-            <li><a href="?page=1">&laquo; first</a></li>
-            <li><a href="?page={{ answers.previous_page_number }}">previous</a></li>
-        {% endif %}
-
-        <li>
-            <a>Page {{ answers.number }} of {{ answers.paginator.num_pages }}</a>
-        </li>
-
-        {% if answers.has_next %}
-            <li><a href="?page={{ answers.next_page_number }}">next</a></li>
-            <li><a href="?page={{ answers.paginator.num_pages }}">last &raquo;</a></li>
-        {% endif %}
-  </div>
+  {% include 'inc/paginator.html' %}
+  
   <div class="row mb-3 mt-3 border-top">
     <div class="col-md-12">
       <div class="form-group mt-3">
