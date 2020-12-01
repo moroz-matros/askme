@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import date
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -14,11 +15,11 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
     email = models.EmailField(max_length=256, verbose_name = "Email", default="")
-    nickname = models.CharField(max_length=256, verbose_name='Никнейм')
-    avatar = models.ImageField(upload_to='uploads/', verbose_name="Аватар", blank=True, 
+    nickname = models.CharField(max_length=256, verbose_name='Nickname')
+    avatar = models.ImageField(upload_to='uploads/', verbose_name="Avatar", 
         default="uploads/default.png")
-    reg_date = models.DateField(verbose_name="Дата регистрации", default=date.today)
-    rate = models.IntegerField(default=0, verbose_name="Рейтинг")
+    reg_date = models.DateField(verbose_name="Registration date", default=date.today)
+    rate = models.IntegerField(default=0, verbose_name="Rate")
     objects = ProfileManager()
 
     def __str__(self):
@@ -65,15 +66,15 @@ class TagManager(models.Manager):
 
 
 class Tag(models.Model):
-    word = models.CharField(max_length=256, verbose_name="Тег")
+    word = models.CharField(max_length=256, verbose_name="Tag")
     objects = TagManager()
 
     def __str__(self):
         return self.word
 
     class Meta:
-        verbose_name = 'Тег'
-        verbose_name_plural = 'Теги'
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
 
 class AnswerManager(models.Manager):
     def find_id(self, answer_id):
@@ -87,20 +88,20 @@ class AnswerManager(models.Manager):
 
 
 class Answer(models.Model):
-    text = models.TextField(verbose_name='Текст', default="")
+    text = models.TextField(verbose_name='Text', default="")
     author = models.ForeignKey('Profile', on_delete=models.CASCADE)
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
-    creation_date = models.DateField(verbose_name="Дата написания",default=date.today)
-    flag = models.BinaryField(verbose_name="Верный ответ?", default=0)
-    rate = models.IntegerField(default=0, verbose_name="Рейтинг")
+    creation_date = models.DateField(verbose_name="Creation date",default=date.today)
+    flag = models.BinaryField(verbose_name="Correct answer?", default=0)
+    rate = models.IntegerField(default=0, verbose_name="Rate")
     objects = AnswerManager()
 
     def __str__(self):
         return self.text
 
     class Meta:
-        verbose_name = 'Ответ'
-        verbose_name_plural = 'Ответы'
+        verbose_name = 'Answer'
+        verbose_name_plural = 'Answers'
 
 class RatingManager(models.Manager):
     def find_id(self, id):
@@ -108,7 +109,7 @@ class RatingManager(models.Manager):
 
 class RatingUsers(models.Model):
     user = models.ForeignKey('Profile', related_name="user_profile", on_delete=models.CASCADE, 
-        verbose_name="Пользователь")
+        verbose_name="User")
     to = models.ForeignKey('Profile', related_name="rated_user",on_delete=models.CASCADE, 
         verbose_name="Оцененный пользователь")
     objects = RatingManager()

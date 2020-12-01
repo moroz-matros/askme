@@ -1,43 +1,64 @@
 {% extends 'inc/base.html' %}
+
 {% load static %}
+{% load bootstrap4 %}
+
 
 {% block content %}
   <h3 class="pb-4 mb-4 border-bottom">
-    Settings: <span id="name">Dr. Pepper</span>
+    Settings: <span id="name">{{ user.profile.nickname }}</span>
   </h3>
-    <div class="row mb-3">
-     <div class="col-md-4">Login</div>
-      <div class="col-md-5">
-        <input type="text" class="form-control" placeholder="" >
-     </div>
-    </div>
-    <div class="row mb-3">
-     <div class="col-md-4">Email</div>
-      <div class="col-md-5">
-        <input type="text" class="form-control ">
-     </div>
-    </div>
-    <div class="row mb-3">
-     <div class="col-md-4">NickName</div>
-      <div class="col-md-5">
-        <input type="text" class="form-control ">
-     </div>
-    </div>
+  <form class="form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
 
-    <div class="row mb-3">        
-     <div class="col-md-4">Upload avatar</div>
-       <div class="col-md-5">
-          <img src="http://placehold.it/128x128" class="p-2">
-          <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0">
+    {{ form.non_field_errors }}
+      <div class="row mb-3">
+       <div class="col-md-4">{{ form.username.label_tag }}</div>
+        <div class="col-md-5">
+          <div class="fieldWrapper">
+            {{ form.username.errors }}
+            {{ form.username }}
+          </div>
        </div>
-    </div>
+      </div>
+      <div class="row mb-3">
+       <div class="col-md-4">{{ form.email.label_tag }}</div>
+        <div class="col-md-5">
+          <div class="fieldWrapper">
+            {{ form.email.errors }}
+            {{ form.email}}
+          </div>
+       </div>
+      </div>
+      <div class="row mb-3">
+       <div class="col-md-4">{{ form.nickname.label_tag }}</div>
+        <div class="col-md-5">
+          <div class="fieldWrapper">
+            {{ form.nickname.errors }}
+            {{ form.nickname}}
+          </div>
+       </div>
+      </div>
 
-    <div class="row mb-3">
-     <div class="col-md-4"></div>
-      <div class="col-md-3">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
-     </div>
-    </div>
+      <div class="row mb-3">        
+       <div class="col-md-4">Upload avatar</div>
+         <div class="col-md-5">
+            <img src="/{{ user.profile.avatar}}" width="128" height="128" class="p-2">
+            {{ form.avatar.errors }}
+            {{ form.avatar }}
+         </div>
+      </div>
+
+      <div class="row mb-3">
+       <div class="col-md-4"></div>
+        <div class="col-md-3">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+       </div>
+      </div>
+  </form>
+
+  
+
 {% endblock content %}
         
       
