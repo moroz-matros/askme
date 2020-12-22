@@ -1,12 +1,12 @@
 {% load static %}
 <div class="media text-muted pt-3 border p-2 mb-2">
       <ol class="list-unstyled mb-0 mr-2" style="text-align: center">
-         <li><img src="/{{ question.author.avatar}}" class="p-2"></li>
+        <li class="m-2"><img src="{{ question.author.avatar.url }}" class="rounded" width="128" height="128"></li>
         <li>
           <div class="def-number-input number-input safari_only">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus">-</button>
-            <input class="quantity" min="0" name="quantity" value="{{ question.rate }}" type="number" style="pointer-events: none; width: 50px; text-align: right;">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">+</button>
+            <button class="minus js-vote" data-action="dislike" data-qid="{{question.pk}}">-</button>
+            <input class="quantity" id="{{question.pk}}" name="quantity" value="{{ question.rate }}" type="number" style="pointer-events: none; width: 50px; text-align: right;">
+            <button class="plus js-vote" data-action="like" data-qid="{{question.pk}}">+</button>
           </div>
         </li>
       </ol>

@@ -14,10 +14,13 @@
 
   
   {% include 'inc/paginator.html' %}
-    
-
-
 
 
   
 {% endblock content %}
+
+{% block jscode %}
+
+  <script src="{% static 'js/vote.js' %}"></script>
+
+{% endblock %}

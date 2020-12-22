@@ -10,11 +10,11 @@
     {% if user.is_authenticated %}
 
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <img src="/{{ user.profile.avatar}}" width="64" height="64" class="pr-2">
+      <li class="nav-item active m-1">
+        <img src="{{ user.profile.avatar.url }}" class="rounded" width="64" height="64" class="pr-2">
       </li>
       <li class="mr-5">
-        <div style="color: white;">{{ user.profile.nickname}}</div>
+        <div style="color: white;">{{ user.profile.nickname }}</div>
         <div class="mt-3">
           <a href="{% url 'settings' %}" style="color: white;" class="text-u">settings</a>
           <a href="{% url 'logout' %}" style="color: white;" class="text-u">log out</a>

@@ -23,7 +23,7 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.listing, name="home"),
+    path('', views.index, name="home"),
     path('hot/', views.hot, name="hot"),
     path('login/', views.login, name="login"),
     path('logout/', views.logout, name="logout"),
@@ -31,5 +31,6 @@ urlpatterns = [
     path('ask/', views.ask, name="ask"),
     path('tag/<str:tag>', views.tag, name="tag"),
     path('settings/', views.settings, name="settings"),
-    path('question/<int:question_id>', views.question, name="question")
+    path('question/<int:question_id>', views.question, name="question"),
+    path('vote/', views.vote, name="vote"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

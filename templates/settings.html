@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load bootstrap4 %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
@@ -16,8 +17,7 @@
        <div class="col-md-4">{{ form.username.label_tag }}</div>
         <div class="col-md-5">
           <div class="fieldWrapper">
-            {{ form.username.errors }}
-            {{ form.username }}
+            {{ form.username|as_crispy_field }}
           </div>
        </div>
       </div>
@@ -25,8 +25,7 @@
        <div class="col-md-4">{{ form.email.label_tag }}</div>
         <div class="col-md-5">
           <div class="fieldWrapper">
-            {{ form.email.errors }}
-            {{ form.email}}
+            {{ form.email|as_crispy_field}}
           </div>
        </div>
       </div>
@@ -34,8 +33,7 @@
        <div class="col-md-4">{{ form.nickname.label_tag }}</div>
         <div class="col-md-5">
           <div class="fieldWrapper">
-            {{ form.nickname.errors }}
-            {{ form.nickname}}
+            {{ form.nickname|as_crispy_field}}
           </div>
        </div>
       </div>
@@ -43,9 +41,8 @@
       <div class="row mb-3">        
        <div class="col-md-4">Upload avatar</div>
          <div class="col-md-5">
-            <img src="/{{ user.profile.avatar}}" width="128" height="128" class="p-2">
-            {{ form.avatar.errors }}
-            {{ form.avatar }}
+            <img src="{{ user.profile.avatar.url}}" width="128" height="128" class="p-2">
+            {{ form.avatar|as_crispy_field }}
          </div>
       </div>
 
@@ -57,7 +54,8 @@
       </div>
   </form>
 
-  
+
+
 
 {% endblock content %}
         

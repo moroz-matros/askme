@@ -16,8 +16,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default="")
     email = models.EmailField(max_length=256, verbose_name = "Email", default="")
     nickname = models.CharField(max_length=256, verbose_name='Nickname')
-    avatar = models.ImageField(upload_to='uploads/', verbose_name="Avatar", 
-        default="uploads/default.png")
+    avatar = models.ImageField(upload_to='avatar/%Y/%m/%d', verbose_name="Avatar", 
+        default="default.png")
     reg_date = models.DateField(verbose_name="Registration date", default=date.today)
     rate = models.IntegerField(default=0, verbose_name="Rate")
     objects = ProfileManager()
@@ -103,39 +103,56 @@ class Answer(models.Model):
         verbose_name = 'Answer'
         verbose_name_plural = 'Answers'
 
-class RatingManager(models.Manager):
+class RatingManagerQuestions(models.Manager):
     def find_id(self, id):
         return self.get(id=id)
+
+    def find_eu(self, element, user):
+        return self.filter(to=element).filter(user=user)
+
+    def change_rate(self, qid, user, action):
+        question = Question.objects.find_id(qid)
+        rate = RatingQuestions.objects.create(user=user, to=question)
+        rate.save()
+        if action == "like":
+            question.rate += 1
+        else:
+            question.rate -= 1
+        question.save()
+        return question.rate
 
 class RatingUsers(models.Model):
     user = models.ForeignKey('Profile', related_name="user_profile", on_delete=models.CASCADE, 
         verbose_name="User")
     to = models.ForeignKey('Profile', related_name="rated_user",on_delete=models.CASCADE, 
-        verbose_name="Оцененный пользователь")
-    objects = RatingManager()
+        verbose_name="Rated user")
+    #objects = RatingManager()
 
     class Meta:
-        verbose_name = 'Рейтинг пользователей'
-        verbose_name_plural = 'Рейтинги пользователей'
+        verbose_name = "Users' rating"
+        verbose_name_plural = "Users' ratings"
 
 class RatingQuestions(models.Model):
     user = models.ForeignKey('Profile', on_delete=models.CASCADE, 
-        verbose_name="Пользователь")
+        verbose_name="Users")
     to = models.ForeignKey('Question', on_delete=models.CASCADE, 
-        verbose_name="Вопрос")
-    objects = RatingManager()
+        verbose_name="Questions")
+    objects = RatingManagerQuestions()
+
+    def __str__(self):
+        return "rate"
 
     class Meta:
-        verbose_name = 'Рейтинг вопросов'
-        verbose_name_plural = 'Рейтинги вопросов'
+        verbose_name = "Questions' rating"
+        verbose_name_plural = "Questions' ratings"
 
 class RatingAnswers(models.Model):
     user = models.ForeignKey('Profile', on_delete=models.CASCADE, 
-        verbose_name="Пользователь")
+        verbose_name="User")
     to = models.ForeignKey('Answer', on_delete=models.CASCADE, 
-        verbose_name="Ответ")
-    objects = RatingManager()
+        verbose_name="Answer")
+    #objects = RatingManager()
 
     class Meta:
-        verbose_name = 'Рейтинг ответов'
-        verbose_name_plural = 'Рейтинги ответов'
+        verbose_name = "Answers' rating"
+        verbose_name_plural = "Answers' ratings"
